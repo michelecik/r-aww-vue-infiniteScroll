@@ -1,6 +1,13 @@
 <template>
-    <div class="redditListContainer">
-        <RedditListItem v-for="item in items" v-bind:key="item.data.index" :item="item.data" :title="item.data.title" :thumbnail="item.data.thumbnail" :link="'https://www.reddit.com' + item.data.permalink" :subreddit="item.data.subreddit_name_prefixed" />
+    <div class="">
+        <RedditListItem
+            v-for="item in items"
+            v-bind:key="item.data.index"
+            :title="item.data.title"
+            :thumbnail="item.data.thumbnail"
+            :link="'https://www.reddit.com' + item.data.permalink"
+            :subreddit="item.data.subreddit_name_prefixed"
+        />
     </div>
 </template>
 
@@ -11,13 +18,9 @@ export default {
     name: "RedditListContainer",
     components: {RedditListItem},
     props: ["items"],
-    setup(props) {
-
-    },
 };
 </script>
 
-<style scoped lang="scss">
-.redditListContainer {
-}
+<style>
+
 </style>
