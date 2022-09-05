@@ -30,6 +30,7 @@ export default {
     height: 200px; 
     text-align: left;
     padding: 50px;
+    border: 1px solid ;
     border-radius: 20px;
 
     &:hover {

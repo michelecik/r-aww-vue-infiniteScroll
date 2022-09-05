@@ -1,9 +1,9 @@
 <template>
     <nav class="nav">
-        <img class="nav__image" src="@/assets/logo.jpg" alt="" srcset="">
+       <a href="https://www.reddit.com/r/aww"> r/aww </a> <img class="nav__image" src="@/assets/logo.jpg" alt="" srcset="">
     </nav>
     <RedditListContainer :items="data" />
-    <h3 v-if="loading">Loading 25 more r/aww posts...</h3>
+    <h3 class="loading" v-if="loading">Loading 25 more r/aww posts...</h3>
 </template>
 
 <script>
@@ -83,10 +83,18 @@ export default {
     margin-top: 60px;
 }
 
+.loading {
+    margin: auto;
+}
+
 .nav {
     position: fixed;
-    top: 10px;
-    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 30px;
+    right: 30px;
+    width: 100px;
 
     &__image {
         width: 50px;
