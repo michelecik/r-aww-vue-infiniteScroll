@@ -1,34 +1,66 @@
 <template>
-    <h1>r/aww</h1>
-    <h3 v-if="loading">Loading</h3>
-    <RedditListItem v-for="item in data" v-bind:key="item.data.index" :item="item.data" />
+    <nav class="nav">
+        <img class="nav__image" src="@/assets/logo.jpg" alt="" srcset="">
+    </nav>
+    <RedditListContainer :items="data" />
+    <h3 v-if="loading">Loading 25 more r/aww posts...</h3>
 </template>
 
 <script>
-import { ref } from "vue";
-import RedditListItem from "./components/RedditListItem.vue";
+import { onMounted, ref } from "vue";
+import RedditListContainer from "./components/RedditListContainer.vue";
 
 export default {
     name: "App",
     components: {
-        RedditListItem,
+        RedditListContainer
     },
     setup() {
         const loading = ref()
+        const data = ref([]);
+        const after = ref('')
 
-        const data = ref();
         const fetchData = () => {
             loading.value = true
-            fetch("https://www.reddit.com/r/aww.json")
+            fetch(`https://www.reddit.com/r/aww.json?limit=24&after=${after.value}`)
                 .then((res) => res.json())
                 .then((body) => {
                     loading.value = false
-                    console.log(body);
-                    data.value = body.data.children;
+                    body.data.children.forEach(item => {
+                        data.value.push(item)
+                    });
+
+                    console.log(body.data.after)
+                    after.value = body.data.after
                 });
         };
 
-        fetchData();
+        const fetchMoreData = () => {
+            loading.value = true
+            fetch(`https://www.reddit.com/r/aww.json?limit=5&after=${after.value}`)
+                .then((res) => res.json())
+                .then((body) => {
+                    after.value = body.data.after
+                    
+                    loading.value = false
+                    body.data.children.forEach(item => {
+                        data.value.push(item)
+                    });
+                });
+        }
+
+
+        window.addEventListener('scroll', () => {
+            let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+            if(bottomOfWindow) {
+                fetchData()
+            }
+        })
+
+        onMounted(() => {
+            fetchData()
+        })
 
         return {
             data,
@@ -39,12 +71,26 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: 'Patrick Hand', cursive;
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+.nav {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+
+    &__image {
+        width: 50px;
+        border-radius: 100%;
+    }
 }
 </style>

@@ -1,37 +1,63 @@
 <template>
     <div class="redditListItem">
-        <img
-            class="redditListItem--image"
-            :src="mini.thumbnail"
-            alt=""
-            srcset=""
-        />
-        <a :href="mini.link" target="_blank">{{ mini.title }}</a>
+        <img class="redditListItem__image" :src="thumbnail" alt="" srcset="" />
+        <div class="redditListItem__contentWrapper">
+            <h1 class="redditListItem__title">
+                <a :href="link" class="redditListItem__link" target="_blank">{{  title  }}</a>
+            </h1>
+
+            <small class="redditListItem__sub">{{subreddit}}</small>
+        </div>
+
     </div>
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+
 export default {
     name: "RedditListItem",
-    props: ["item"],
-    setup(props) {
-        const mini = reactive({
-            title: props.item.title,
-            thumbnail: props.item.thumbnail,
-            link: 'https://www.reddit.com/' + props.item.permalink
-        });
-
-        return { mini };
+    props: ['title', 'link', 'thumbnail', 'subreddit'],
+    setup() {
     },
 };
 </script>
 
 <style lang="scss">
 .redditListItem {
-    margin: 10px auto;
+    margin: 5em auto;
     display: flex;
-    width: 80%;
-    border: 1px solid rebeccapurple;
+    max-width: 900px;
+    height: 200px; 
+    text-align: left;
+    padding: 50px;
+    border-radius: 20px;
+
+    &:hover {
+        background-color: rgba(245, 199, 49, 0.1);
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: #333;
+    }
+
+    &__contentWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 2em;
+        height: 100%;
+        width: 100%;
+    }
+
+    &__image {
+        width: 200px;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 </style>
