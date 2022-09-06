@@ -1,6 +1,6 @@
 <template>
     <nav class="nav">
-       <a href="https://www.reddit.com/r/aww"> r/aww </a> <img class="nav__image" src="@/assets/logo.jpg" alt="" srcset="">
+       <a href="https://www.reddit.com/r/aww"> <img class="nav__image" src="@/assets/logo.jpg" alt="" srcset=""> </a>
     </nav>
     <RedditListContainer :items="data" />
     <h3 class="loading" v-if="loading">Loading 25 more r/aww posts...</h3>
@@ -30,25 +30,9 @@ export default {
                         data.value.push(item)
                     });
 
-                    console.log(body.data.after)
                     after.value = body.data.after
                 });
         };
-
-        const fetchMoreData = () => {
-            loading.value = true
-            fetch(`https://www.reddit.com/r/aww.json?limit=5&after=${after.value}`)
-                .then((res) => res.json())
-                .then((body) => {
-                    after.value = body.data.after
-                    
-                    loading.value = false
-                    body.data.children.forEach(item => {
-                        data.value.push(item)
-                    });
-                });
-        }
-
 
         window.addEventListener('scroll', () => {
             let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;

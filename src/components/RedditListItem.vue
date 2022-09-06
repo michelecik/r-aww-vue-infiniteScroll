@@ -26,11 +26,11 @@ export default {
 .redditListItem {
     margin: 5em auto;
     display: flex;
+    align-items: center;
     max-width: 900px;
-    height: 200px; 
     text-align: left;
     padding: 50px;
-    border: 1px solid ;
+    height: 400px;
     border-radius: 20px;
 
     &:hover {
@@ -56,9 +56,23 @@ export default {
     }
 
     &__image {
-        width: 200px;
+        width: 400px;
         height: 100%;
         object-fit: cover;
+    }
+}
+
+@media (max-width: 768px) {
+    .redditListItem {
+        height: auto;
+        min-height: 300px;
+        flex-direction: column;
+        padding: 50px;
+        width: 80%;
+
+        &__image {
+            width: 100%;
+        }
     }
 }
 </style>
